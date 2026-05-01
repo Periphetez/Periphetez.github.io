@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ian Stout — Autonomous Systems Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0e0d0b;
+      --surface:  #161410;
+      --surface2: #1e1b16;
+      --border:   #2e2a22;
+      --border2:  #3d3830;
+      --orange:   #e8580a;
+      --orange2:  #c44a08;
+      --rust:     #a63d1f;
+      --amber:    #d4820a;
+      --steel:    #8a9099;
+      --text:     #ddd8cf;
+      --muted:    #6b6459;
+      --mono: 'Barlow Condensed', sans-serif;
+      --sans: 'Barlow', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* riveted plate texture via repeating gradient */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image:
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(46,42,34,0.6) 59px, rgba(46,42,34,0.6) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(46,42,34,0.4) 59px, rgba(46,42,34,0.4) 60px);
+      pointer-events: none; z-index: 0; opacity: 0.5;
+    }
+
+    /* warm industrial glow bottom-left */
+    .glow-orb {
+      position: fixed;
+      width: 700px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(232,88,10,0.07) 0%, transparent 65%);
+      bottom: -150px; left: -100px;
+      pointer-events: none; z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1rem 3rem;
+      background: rgba(14,13,11,0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--border);
+    }
+
+    .nav-logo {
+      font-family: var(--mono);
+      font-size: 1rem; font-weight: 800;
+      color: var(--orange);
+      letter-spacing: 0.12em;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--orange); }
+
+    /* ── LAYOUT ── */
+    section { position: relative; z-index: 1; max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ── HERO ── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding-top: 80px;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 0.78rem; font-weight: 600;
+      color: var(--orange);
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+      display: flex; align-items: center; gap: 0.75rem;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 32px; height: 2px;
+      background: var(--orange);
+    }
+
+    h1 {
+      font-family: var(--mono);
+      font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 800;
+      line-height: 0.9;
+      letter-spacing: -0.01em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s;
+    }
+
+    h1 .line2 { color: var(--border2); display: block; -webkit-text-stroke: 1px var(--border2); }
+    h1 .accent { color: var(--orange); }
+
+    .hero-desc {
+      max-width: 580px;
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+      border-left: 3px solid var(--border2);
+      padding-left: 1.25rem;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s;
+    }
+
+    .hero-cta {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.6s ease forwards 0.65s;
+    }
+
+    .btn {
+      font-family: var(--mono);
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+    }
+
+    .btn-primary { background: var(--orange); color: #fff; border: none; }
+    .btn-primary:hover { background: var(--orange2); }
+    .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
+    .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
+
+    /* ── SECTION HEADERS ── */
+    .section-header {
+      display: flex; align-items: center; gap: 1.25rem;
+      margin-bottom: 3rem; padding-top: 6rem;
+    }
+
+    .section-num {
+      font-family: var(--mono);
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.2em;
+      background: rgba(232,88,10,0.1);
+      border: 1px solid rgba(232,88,10,0.25);
+      padding: 0.25rem 0.6rem;
+    }
+
+    .section-title {
+      font-family: var(--mono);
+      font-size: 1.8rem; font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* ── ABOUT ── */
+    .about-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 4rem; align-items: start; }
+    .about-text p { color: var(--muted); margin-bottom: 1.2rem; font-size: 1rem; }
+    .about-text p strong { color: var(--text); font-weight: 500; }
+
+    .about-highlights { display: flex; flex-direction: column; gap: 0; }
+
+    .highlight-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--orange);
+      padding: 1rem 1.25rem;
+      margin-bottom: -1px;
+      transition: background 0.2s;
+    }
+    .highlight-card:hover { background: var(--surface2); }
+
+    .highlight-card .h-num {
+      font-family: var(--mono);
+      font-size: 1.6rem; font-weight: 800;
+      color: var(--orange);
+      line-height: 1;
+      letter-spacing: -0.01em;
+    }
+
+    .highlight-card .h-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
+
+    /* ── SKILLS ── */
+    .skills-section { margin-top: 3rem; }
+    .skills-categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+
+    .skill-cat h4 {
+      font-family: var(--mono);
+      font-size: 0.72rem; font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+
+    .skill-tag {
+      font-family: var(--mono);
+      font-size: 0.7rem; font-weight: 600;
+      color: var(--steel);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.65rem;
+      letter-spacing: 0.04em;
+      transition: all 0.15s;
+    }
+    .skill-tag:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); }
+
+    /* ── PROJECTS ── */
+    .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+
+    .project-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.2s;
+    }
+
+    .project-card::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--border2);
+      transition: background 0.2s;
+    }
+
+    .project-card:hover { background: var(--surface2); }
+    .project-card:hover::after { background: var(--orange); }
+
+    .project-card.featured {
+      grid-column: span 2;
+      background: var(--surface2);
+    }
+    .project-card.featured::after { background: var(--orange); }
+
+    .project-label {
+      font-family: var(--mono);
+      font-size: 0.68rem; font-weight: 700;
+      color: var(--amber);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .project-card h3 {
+      font-family: var(--mono);
+      font-size: 1.05rem; font-weight: 800;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+      color: var(--text);
+    }
+
+    .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 1.25rem; }
+
+    .project-stat {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--orange);
+      background: rgba(232,88,10,0.08);
+      border: 1px solid rgba(232,88,10,0.3);
+      padding: 0.3rem 0.75rem;
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+    }
+
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+
+    .project-tag {
+      font-family: var(--mono);
+      font-size: 0.67rem; font-weight: 600;
+      color: var(--muted);
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      padding: 0.25rem 0.6rem;
+      letter-spacing: 0.04em;
+    }
+
+    .project-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--mono);
+      font-size: 0.75rem; font-weight: 700;
+      color: var(--orange);
+      text-decoration: none;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .project-link:hover { color: #fff; }
+    .project-link::after { content: '→'; transition: transform 0.2s; }
+    .project-link:hover::after { transform: translateX(4px); }
+
+    .video-placeholder {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      height: 180px;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 0.6rem;
+      margin-bottom: 1.25rem;
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 0.72rem; font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+    .video-placeholder .play-icon { font-size: 2.5rem; opacity: 0.2; color: var(--orange); }
+
+    /* ── EXPERIENCE ── */
+    .experience-list { display: flex; flex-direction: column; }
+
+    .exp-item {
+      border-left: 2px solid var(--border);
+      padding: 0 0 2.5rem 2rem;
+      position: relative;
+    }
+
+    .exp-item::before {
+      content: '';
+      position: absolute;
+      left: -5px; top: 8px;
+      width: 8px; height: 8px;
+      background: var(--orange);
+      border: 2px solid var(--bg);
+      transform: rotate(45deg);
+    }
+
+    .exp-item:last-child { padding-bottom: 0; }
+
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem; flex-wrap: wrap; gap: 0.5rem; }
+
+    .exp-company {
+      font-family: var(--mono);
+      font-size: 0.78rem; font-weight: 700;
+      color: var(--orange);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .exp-date {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+    }
+
+    .exp-title {
+      font-family: var(--mono);
+      font-size: 1.1rem; font-weight: 700;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      color: var(--text);
+      margin-bottom: 0.85rem;
+    }
+
+    .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
+
+    .exp-bullets li {
+      font-size: 0.9rem;
+      color: var(--muted);
+      padding-left: 1.2rem;
+      position: relative;
+    }
+
+    .exp-bullets li::before {
+      content: '▸';
+      position: absolute; left: 0;
+      color: var(--amber);
+      font-size: 0.65rem;
+      top: 0.25em;
+    }
+
+    .exp-bullets li strong { color: var(--text); font-weight: 500; }
+
+    /* ── CONTACT ── */
+    .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-bottom: 8rem; align-items: start; }
+
+    .contact-text h2 {
+      font-family: var(--mono);
+      font-size: 2.2rem; font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+      margin-bottom: 1rem;
+      line-height: 1.1;
+    }
+
+    .contact-text h2 span { color: var(--orange); display: block; }
+
+    .contact-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
+
+    .contact-note {
+      font-size: 0.85rem;
+      color: var(--muted);
+      border-left: 3px solid var(--orange);
+      padding-left: 1rem;
+      font-style: italic;
+    }
+
+    .contact-links { display: flex; flex-direction: column; gap: 0; }
+
+    .contact-link {
+      display: flex; align-items: center; gap: 1rem;
+      font-family: var(--mono);
+      font-size: 0.8rem; font-weight: 600;
+      color: var(--muted);
+      text-decoration: none;
+      padding: 1rem 1.25rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      transition: all 0.15s;
+      letter-spacing: 0.06em;
+      margin-bottom: -1px;
+    }
+
+    .contact-link:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); z-index: 1; position: relative; }
+    .contact-link .link-icon { font-size: 1rem; color: var(--orange); }
+
+    /* ── FOOTER ── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 1.75rem;
+      border-top: 2px solid var(--border);
+      font-family: var(--mono);
+      font-size: 0.72rem; font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .about-grid, .projects-grid, .contact-wrapper, .skills-categories { grid-template-columns: 1fr; gap: 2rem; }
+      .project-card.featured { grid-column: span 1; }
+      h1 { font-size: clamp(3rem, 13vw, 5rem); }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-orb"></div>
+
+  <nav>
+    <a href="#hero" class="nav-logo">Ian Stout // Eng</a>
+    <ul class="nav-links">
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <div class="hero-tag">Edmonton, Alberta — RCAF Veteran</div>
+    <h1>
+      Ian<br>
+      <span class="line2">Stout<span class="accent">.</span></span>
+    </h1>
+    <p class="hero-desc">
+      Autonomous systems engineer and technology director. I build perception stacks, edge AI systems, and autonomous control platforms that operate in the harshest real-world environments — mining, heavy construction, and tactical operations.
+    </p>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-primary">View Projects</a>
+      <a href="mailto:buildsignal916@gmail.com" class="btn btn-outline">Get in Touch</a>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>My career started in the oilfield — <strong>troubleshooting mechanical failures and electronic control systems</strong> on power generators, power swivels, and fluid pumping equipment in active field environments. That built a ground-level understanding of how industrial equipment actually fails.</p>
+        <p>From there, progressive leadership in quality, compliance, and operations across heavy industry taught me the rigor that separates <strong>deployable technology from technology that only works in a lab</strong>.</p>
+        <p>Today I own the full autonomous systems lifecycle at Correct-AI: electrical design, hardware selection, equipment integration, field deployment, and the product support teams that keep systems running where technology gets pushed hard every single day.</p>
+        <p><strong>RCAF veteran.</strong> Electronic Engineering Technology diploma. Six Sigma Green Belt. Bachelor of Management in progress at Athabasca University.</p>
+      </div>
+      <div class="about-highlights">
+        <div class="highlight-card">
+          <div class="h-num">350%+</div>
+          <div class="h-label">AI inference speedup — 50ms → 14ms on edge hardware</div>
+        </div>
+        <div class="highlight-card">
+          <div class="h-num">L9</div>
+          <div class="h-label">Patent-pending autonomous braking system at active customer sites</div>
+        </div>
+        <div class="highlight-card">
+          <div class="h-num">$1M</div>
+          <div class="h-label">Annual profit increase from novel equipment repurposing solution</div>
+        </div>
+        <div class="highlight-card">
+          <div class="h-num">14%</div>
+          <div class="h-label">Reduction in unwanted events — first incident-free quarter in company history</div>
+        </div>
+      </div>
+    </div>
+    <div class="skills-section">
+      <div class="skills-categories">
+        <div class="skill-cat">
+          <h4>// Autonomy Stack</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">ROS 2</span>
+            <span class="skill-tag">Autoware</span>
+            <span class="skill-tag">Drive-by-Wire</span>
+            <span class="skill-tag">Sensor Fusion</span>
+            <span class="skill-tag">GNSS / Dead Reckoning</span>
+            <span class="skill-tag">CAN / UAVCAN / J1939</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h4>// Edge AI & Perception</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">YOLO / OpenCV</span>
+            <span class="skill-tag">NVIDIA Jetson</span>
+            <span class="skill-tag">TensorRT</span>
+            <span class="skill-tag">Edge Deployment</span>
+            <span class="skill-tag">Real-time Inference</span>
+            <span class="skill-tag">Behavior Detection</span>
+          </div>
+        </div>
+        <div class="skill-cat">
+          <h4>// Systems & Leadership</h4>
+          <div class="skill-tags">
+            <span class="skill-tag">C++ / Python</span>
+            <span class="skill-tag">Electrical Design</span>
+            <span class="skill-tag">Harness Design</span>
+            <span class="skill-tag">Field Commissioning</span>
+            <span class="skill-tag">IP / Patent Strategy</span>
+            <span class="skill-tag">ISO 9001 / COR</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid">
+
+      <div class="project-card featured">
+        <div class="project-label">// Active — Correct-AI | Patent Pending</div>
+        <h3>Autonomous Braking System — Level 9</h3>
+        <p>Led every stage of development for a patent-pending autonomous braking system deployed across multiple active mining and construction sites. Full ownership from electrical design and component selection through physical installation, software integration, and customer deployment. Integrated YOLO/OpenCV-based real-time perception with deterministic control logic — producing measurable reduction in near-miss incidents in active field environments.</p>
+        <span class="project-stat">↓ Near-miss incidents across active customer sites</span>
+        <div class="video-placeholder">
+          <span class="play-icon">▶</span>
+          <span>Demo video — coming soon</span>
+        </div>
+        <div class="project-tags">
+          <span class="project-tag">YOLO / OpenCV</span>
+          <span class="project-tag">Edge AI</span>
+          <span class="project-tag">Jetson</span>
+          <span class="project-tag">CAN Bus</span>
+          <span class="project-tag">C++</span>
+          <span class="project-tag">Python</span>
+          <span class="project-tag">Electrical Design</span>
+        </div>
+        <a href="https://github.com/Periphetez" class="project-link">GitHub</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">// Correct-AI</div>
+        <h3>AI Inference Optimization — 350%+ Speedup</h3>
+        <p>Drove software and pipeline-level optimization of the company's flagship AI model, cutting inference latency from 50ms to 14ms. Unlocked real-time perception on embedded edge hardware in rugged operating environments where cloud connectivity isn't an option.</p>
+        <span class="project-stat">50ms → 14ms inference latency</span>
+        <div class="project-tags">
+          <span class="project-tag">TensorRT</span>
+          <span class="project-tag">Jetson</span>
+          <span class="project-tag">Pipeline Optimization</span>
+          <span class="project-tag">Edge Inference</span>
+        </div>
+        <a href="https://github.com/Periphetez" class="project-link">GitHub</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">// Correct-AI</div>
+        <h3>Autonomous Valet Platform — Drive-by-Wire</h3>
+        <p>Systems lead for an Autoware-based autonomous valet parking initiative. Selected embedded compute, AI accelerator, steering motor, and braking actuators. Designed deterministic C++/Python interface layers from motion planning output to physical actuation through to field deployment.</p>
+        <div class="project-tags">
+          <span class="project-tag">Autoware</span>
+          <span class="project-tag">ROS 2</span>
+          <span class="project-tag">Drive-by-Wire</span>
+          <span class="project-tag">C++ / Python</span>
+          <span class="project-tag">Systems Integration</span>
+        </div>
+        <a href="https://github.com/Periphetez" class="project-link">GitHub</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">// Correct-AI</div>
+        <h3>Monocular Distance Measurement System</h3>
+        <p>Engineered a camera-based distance measurement system using pre-calibrated parameters and deterministic mathematical functions. Achieved higher accuracy and reliability than stereo vision at significantly lower hardware cost.</p>
+        <div class="project-tags">
+          <span class="project-tag">Computer Vision</span>
+          <span class="project-tag">OpenCV</span>
+          <span class="project-tag">Camera Calibration</span>
+          <span class="project-tag">Python</span>
+        </div>
+        <a href="https://github.com/Periphetez" class="project-link">GitHub</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">// Edge AI — Source on Request</div>
+        <h3>Edge AI Object Tracker</h3>
+        <p>Real-time object detection and tracking on NVIDIA Jetson hardware. Optimized inference pipeline for person and vehicle classification with behavior analysis — designed for low-latency, off-grid deployment with zero cloud dependency.</p>
+        <div class="project-tags">
+          <span class="project-tag">Jetson</span>
+          <span class="project-tag">YOLO</span>
+          <span class="project-tag">TensorRT</span>
+          <span class="project-tag">Python</span>
+          <span class="project-tag">OpenCV</span>
+        </div>
+        <a href="mailto:buildsignal916@gmail.com" class="project-link">Request Access</a>
+      </div>
+
+      <div class="project-card">
+        <div class="project-label">// Pegasus Imagery</div>
+        <h3>Autonomous UAV Platform — BVLOS</h3>
+        <p>Led full development lifecycle of autonomous UAV systems for wildfire management and national security missions. Embedded edge radar/optical sensor processing, UAVCAN fault-tolerant architecture, and airworthiness validation through to BVLOS operational deployment.</p>
+        <div class="project-tags">
+          <span class="project-tag">UAVCAN</span>
+          <span class="project-tag">Embedded Systems</span>
+          <span class="project-tag">BVLOS</span>
+          <span class="project-tag">Radar / Optical</span>
+          <span class="project-tag">Detect & Avoid</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section id="experience">
+    <div class="section-header">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Experience</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="experience-list">
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">Correct-AI</span>
+          <span class="exp-date">Mar 2024 – Present</span>
+        </div>
+        <div class="exp-title">Director of Technology</div>
+        <ul class="exp-bullets">
+          <li>Owns the full technology stack for AI-driven safety and autonomous control systems deployed on heavy equipment in mining and civil construction.</li>
+          <li><strong>Patent-pending autonomous braking system (L9)</strong> — led electrical design, component selection, installation, software integration, and multi-site deployment.</li>
+          <li><strong>350%+ AI inference speedup</strong> — reduced latency from 50ms to 14ms, enabling real-time edge perception on embedded hardware.</li>
+          <li>Systems lead for Autoware-based autonomous valet platform — designed drive-by-wire actuation interface from motion planning to physical hardware.</li>
+          <li>Engineered monocular distance measurement system outperforming stereo vision at lower hardware cost.</li>
+          <li>Built and leads the product support organization responsible for field reliability post-deployment.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">Pegasus Imagery</span>
+          <span class="exp-date">Aug 2023 – Feb 2024</span>
+        </div>
+        <div class="exp-title">Vice President of Operations</div>
+        <ul class="exp-bullets">
+          <li>Led engineering, flight operations, IT, and product teams delivering autonomous UAV platforms for wildfire management and national security.</li>
+          <li>Oversaw full aircraft development lifecycle through BVLOS operational deployment.</li>
+          <li>Directed embedded software development for real-time radar and optical sensor processing on flight-critical hardware.</li>
+          <li>Implemented UAVCAN-based architecture for deterministic, fault-tolerant data transfer between flight-critical components.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">Precision Drilling</span>
+          <span class="exp-date">Aug 2022 – Aug 2023</span>
+        </div>
+        <div class="exp-title">Process Improvement & Support Services Manager</div>
+        <ul class="exp-bullets">
+          <li>Saved <strong>4,000+ man-hours annually</strong> through LMS deployment across Canada.</li>
+          <li>Delivered structured leadership development to 250+ employees.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">High Arctic Energy Services</span>
+          <span class="exp-date">Aug 2021 – Aug 2022</span>
+        </div>
+        <div class="exp-title">Global Operational Efficiency & Compliance Manager</div>
+        <ul class="exp-bullets">
+          <li>Led a 14-person international team across North America and Papua New Guinea.</li>
+          <li><strong>Reduced unwanted events by 14%</strong>; achieved the company's first incident-free quarter.</li>
+          <li>Managed COR audit program — reduced transport violations below 10%, best result since 2018.</li>
+          <li>Delivered 40% reduction in reactive corrective actions; results presented to the Board of Directors.</li>
+        </ul>
+      </div>
+
+      <div class="exp-item">
+        <div class="exp-header">
+          <span class="exp-company">High Arctic Energy Services</span>
+          <span class="exp-date">Apr 2019 – Aug 2021</span>
+        </div>
+        <div class="exp-title">Branch Manager, Rentals Division</div>
+        <ul class="exp-bullets">
+          <li><strong>$1M annual profit increase</strong> from novel equipment repurposing solution — still in active use today.</li>
+          <li>Designed and prototyped a wireless remote sensor network (Python/C++) for real-time field data acquisition.</li>
+          <li>Spearheaded a net-zero emission fluid pumping system capable of unmanned remote operation.</li>
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-wrapper">
+      <div class="contact-text">
+        <h2>Let's build<br><span>something real.</span></h2>
+        <p>Open to interesting problems in autonomous systems, edge AI, and industrial technology. Always happy to talk shop about GNSS, drone systems, perception stacks, or anything that has to work in an actual field environment.</p>
+        <p class="contact-note">Based in Edmonton. Available for contract work and full-time roles in embedded systems, autonomy, and technology leadership.</p>
+      </div>
+      <div class="contact-links">
+        <a href="mailto:buildsignal916@gmail.com" class="contact-link">
+          <span class="link-icon">✉</span> buildsignal916@gmail.com
+        </a>
+        <a href="https://github.com/Periphetez" class="contact-link" target="_blank">
+          <span class="link-icon">⌥</span> github.com/Periphetez
+        </a>
+        <a href="https://www.linkedin.com/in/ian-stout-1798b3169/" class="contact-link" target="_blank">
+          <span class="link-icon">◈</span> linkedin.com/in/ian-stout-1798b3169
+        </a>
+        <a href="tel:7808269684" class="contact-link">
+          <span class="link-icon">◎</span> 780.826.9684
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    Ian Stout — Edmonton, AB — Autonomous Systems Engineer
+  </footer>
+
+</body>
+</html>
