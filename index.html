@@ -9,18 +9,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #0e0d0b;
-      --surface:  #161410;
-      --surface2: #1e1b16;
-      --border:   #2e2a22;
-      --border2:  #3d3830;
+      --bg:       #1a1712;
+      --bg2:      #211e18;
+      --surface:  #2a2620;
+      --surface2: #322e27;
+      --border:   #3d3830;
+      --border2:  #4e4840;
       --orange:   #e8580a;
       --orange2:  #c44a08;
       --rust:     #a63d1f;
       --amber:    #d4820a;
-      --steel:    #8a9099;
-      --text:     #ddd8cf;
-      --muted:    #6b6459;
+      --steel:    #9aa0a8;
+      --text:     #e8e2d8;
+      --muted:    #8a8070;
       --mono: 'Barlow Condensed', sans-serif;
       --sans: 'Barlow', sans-serif;
     }
@@ -37,24 +38,60 @@
       overflow-x: hidden;
     }
 
-    /* riveted plate texture via repeating gradient */
+    /* subtle plate grid */
     body::before {
       content: '';
       position: fixed; inset: 0;
       background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(46,42,34,0.6) 59px, rgba(46,42,34,0.6) 60px),
-        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(46,42,34,0.4) 59px, rgba(46,42,34,0.4) 60px);
-      pointer-events: none; z-index: 0; opacity: 0.5;
+        repeating-linear-gradient(0deg, transparent, transparent 59px, rgba(255,255,255,0.025) 59px, rgba(255,255,255,0.025) 60px),
+        repeating-linear-gradient(90deg, transparent, transparent 59px, rgba(255,255,255,0.015) 59px, rgba(255,255,255,0.015) 60px);
+      pointer-events: none; z-index: 0; opacity: 1;
     }
 
-    /* warm industrial glow bottom-left */
+    /* ── MOUNTAIN HERO BACKGROUND ── */
+    .mountain-bg {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 75%;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .mountain-bg svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    /* sky gradient behind mountains */
+    #hero {
+      position: relative;
+      background: linear-gradient(
+        180deg,
+        #2e2a22 0%,
+        #3a3228 30%,
+        #2a241c 60%,
+        var(--bg) 100%
+      );
+    }
+
+    /* warm glow */
     .glow-orb {
       position: fixed;
       width: 700px; height: 500px;
       border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(232,88,10,0.07) 0%, transparent 65%);
+      background: radial-gradient(ellipse, rgba(232,88,10,0.09) 0%, transparent 65%);
       bottom: -150px; left: -100px;
       pointer-events: none; z-index: 0;
+    }
+
+    .glow-top {
+      position: absolute;
+      width: 500px; height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(ellipse, rgba(212,130,10,0.12) 0%, transparent 70%);
+      top: 60px; right: 5%;
+      pointer-events: none; z-index: 1;
     }
 
     /* ── NAV ── */
@@ -62,30 +99,14 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1rem 3rem;
-      background: rgba(14,13,11,0.92);
+      background: rgba(26,23,18,0.93);
       backdrop-filter: blur(10px);
       border-bottom: 2px solid var(--border);
     }
 
-    .nav-logo {
-      font-family: var(--mono);
-      font-size: 1rem; font-weight: 800;
-      color: var(--orange);
-      letter-spacing: 0.12em;
-      text-decoration: none;
-      text-transform: uppercase;
-    }
-
+    .nav-logo { font-family: var(--mono); font-size: 1rem; font-weight: 800; color: var(--orange); letter-spacing: 0.12em; text-decoration: none; text-transform: uppercase; }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a {
-      font-family: var(--mono);
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--muted);
-      text-decoration: none;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .nav-links a { font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: var(--muted); text-decoration: none; letter-spacing: 0.12em; text-transform: uppercase; transition: color 0.2s; }
     .nav-links a:hover { color: var(--orange); }
 
     /* ── LAYOUT ── */
@@ -96,95 +117,54 @@
       min-height: 100vh;
       display: flex; flex-direction: column; justify-content: center;
       padding-top: 80px;
+      overflow: hidden;
     }
 
+    #hero .hero-content { position: relative; z-index: 2; max-width: 1100px; margin: 0 auto; padding: 0 2rem; width: 100%; }
+
     .hero-tag {
-      font-family: var(--mono);
-      font-size: 0.78rem; font-weight: 600;
-      color: var(--orange);
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: 0.78rem; font-weight: 600;
+      color: var(--orange); letter-spacing: 0.25em; text-transform: uppercase;
       margin-bottom: 1.25rem;
       display: flex; align-items: center; gap: 0.75rem;
       opacity: 0; animation: fadeUp 0.6s ease forwards 0.2s;
     }
-
-    .hero-tag::before {
-      content: '';
-      display: inline-block;
-      width: 32px; height: 2px;
-      background: var(--orange);
-    }
+    .hero-tag::before { content: ''; display: inline-block; width: 32px; height: 2px; background: var(--orange); }
 
     h1 {
-      font-family: var(--mono);
-      font-size: clamp(4rem, 10vw, 8rem);
-      font-weight: 800;
-      line-height: 0.9;
-      letter-spacing: -0.01em;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      font-family: var(--mono); font-size: clamp(4rem, 10vw, 8rem);
+      font-weight: 800; line-height: 0.9; letter-spacing: -0.01em;
+      text-transform: uppercase; margin-bottom: 1.5rem;
       opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s;
     }
-
-    h1 .line2 { color: var(--border2); display: block; -webkit-text-stroke: 1px var(--border2); }
+    h1 .line2 { color: transparent; display: block; -webkit-text-stroke: 1.5px rgba(232,88,10,0.5); }
     h1 .accent { color: var(--orange); }
 
     .hero-desc {
-      max-width: 580px;
-      font-size: 1.05rem;
-      color: var(--muted);
+      max-width: 580px; font-size: 1.05rem; color: var(--muted);
       margin-bottom: 2.5rem;
-      border-left: 3px solid var(--border2);
-      padding-left: 1.25rem;
+      border-left: 3px solid var(--border2); padding-left: 1.25rem;
       opacity: 0; animation: fadeUp 0.6s ease forwards 0.5s;
     }
 
-    .hero-cta {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp 0.6s ease forwards 0.65s;
-    }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeUp 0.6s ease forwards 0.65s; }
 
     .btn {
-      font-family: var(--mono);
-      font-size: 0.82rem; font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 0.9rem 2rem;
-      text-decoration: none;
-      transition: all 0.2s;
+      font-family: var(--mono); font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.9rem 2rem; text-decoration: none; transition: all 0.2s;
       display: inline-flex; align-items: center; gap: 0.5rem;
       clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
     }
-
     .btn-primary { background: var(--orange); color: #fff; border: none; }
     .btn-primary:hover { background: var(--orange2); }
     .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border2); }
     .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
 
     /* ── SECTION HEADERS ── */
-    .section-header {
-      display: flex; align-items: center; gap: 1.25rem;
-      margin-bottom: 3rem; padding-top: 6rem;
-    }
-
-    .section-num {
-      font-family: var(--mono);
-      font-size: 0.72rem; font-weight: 700;
-      color: var(--orange);
-      letter-spacing: 0.2em;
-      background: rgba(232,88,10,0.1);
-      border: 1px solid rgba(232,88,10,0.25);
-      padding: 0.25rem 0.6rem;
-    }
-
-    .section-title {
-      font-family: var(--mono);
-      font-size: 1.8rem; font-weight: 800;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
+    .section-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 3rem; padding-top: 6rem; }
+    .section-num { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); letter-spacing: 0.2em; background: rgba(232,88,10,0.1); border: 1px solid rgba(232,88,10,0.25); padding: 0.25rem 0.6rem; }
+    .section-title { font-family: var(--mono); font-size: 1.8rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
     .section-line { flex: 1; height: 1px; background: var(--border); }
 
     /* ── ABOUT ── */
@@ -193,291 +173,108 @@
     .about-text p strong { color: var(--text); font-weight: 500; }
 
     .about-highlights { display: flex; flex-direction: column; gap: 0; }
-
-    .highlight-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-left: 4px solid var(--orange);
-      padding: 1rem 1.25rem;
-      margin-bottom: -1px;
-      transition: background 0.2s;
-    }
+    .highlight-card { background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--orange); padding: 1rem 1.25rem; margin-bottom: -1px; transition: background 0.2s; }
     .highlight-card:hover { background: var(--surface2); }
-
-    .highlight-card .h-num {
-      font-family: var(--mono);
-      font-size: 1.6rem; font-weight: 800;
-      color: var(--orange);
-      line-height: 1;
-      letter-spacing: -0.01em;
-    }
-
+    .highlight-card .h-num { font-family: var(--mono); font-size: 1.6rem; font-weight: 800; color: var(--orange); line-height: 1; letter-spacing: -0.01em; }
     .highlight-card .h-label { font-size: 0.8rem; color: var(--muted); margin-top: 0.2rem; }
 
-    /* ── SKILLS ── */
     .skills-section { margin-top: 3rem; }
     .skills-categories { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-
-    .skill-cat h4 {
-      font-family: var(--mono);
-      font-size: 0.72rem; font-weight: 700;
-      color: var(--amber);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      padding-bottom: 0.5rem;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .skill-cat h4 { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
-
-    .skill-tag {
-      font-family: var(--mono);
-      font-size: 0.7rem; font-weight: 600;
-      color: var(--steel);
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 0.35rem 0.65rem;
-      letter-spacing: 0.04em;
-      transition: all 0.15s;
-    }
+    .skill-tag { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; color: var(--steel); background: var(--surface); border: 1px solid var(--border); padding: 0.35rem 0.65rem; letter-spacing: 0.04em; transition: all 0.15s; }
     .skill-tag:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); }
 
     /* ── PROJECTS ── */
     .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
-
-    .project-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      padding: 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.2s;
-    }
-
-    .project-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 3px;
-      background: var(--border2);
-      transition: background 0.2s;
-    }
-
+    .project-card { background: var(--surface); border: 1px solid var(--border); padding: 2rem; position: relative; overflow: hidden; transition: background 0.2s; }
+    .project-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--border2); transition: background 0.2s; }
     .project-card:hover { background: var(--surface2); }
     .project-card:hover::after { background: var(--orange); }
-
-    .project-card.featured {
-      grid-column: span 2;
-      background: var(--surface2);
-    }
+    .project-card.featured { grid-column: span 2; background: var(--surface2); }
     .project-card.featured::after { background: var(--orange); }
 
-    .project-label {
-      font-family: var(--mono);
-      font-size: 0.68rem; font-weight: 700;
-      color: var(--amber);
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-    }
-
-    .project-card h3 {
-      font-family: var(--mono);
-      font-size: 1.05rem; font-weight: 800;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      margin-bottom: 0.75rem;
-      color: var(--text);
-    }
-
+    .project-label { font-family: var(--mono); font-size: 0.68rem; font-weight: 700; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; }
+    .project-card h3 { font-family: var(--mono); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.75rem; color: var(--text); }
     .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 1.25rem; }
 
-    .project-stat {
-      display: inline-block;
-      font-family: var(--mono);
-      font-size: 0.75rem; font-weight: 700;
-      color: var(--orange);
-      background: rgba(232,88,10,0.08);
-      border: 1px solid rgba(232,88,10,0.3);
-      padding: 0.3rem 0.75rem;
-      margin-bottom: 1rem;
-      letter-spacing: 0.05em;
-    }
+    .project-stat { display: inline-block; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); background: rgba(232,88,10,0.08); border: 1px solid rgba(232,88,10,0.3); padding: 0.3rem 0.75rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
 
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
+    .project-tag { font-family: var(--mono); font-size: 0.67rem; font-weight: 600; color: var(--muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 0.25rem 0.6rem; letter-spacing: 0.04em; }
 
-    .project-tag {
-      font-family: var(--mono);
-      font-size: 0.67rem; font-weight: 600;
-      color: var(--muted);
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--border);
-      padding: 0.25rem 0.6rem;
-      letter-spacing: 0.04em;
-    }
-
-    .project-link {
-      display: inline-flex; align-items: center; gap: 0.4rem;
-      font-family: var(--mono);
-      font-size: 0.75rem; font-weight: 700;
-      color: var(--orange);
-      text-decoration: none;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
-    }
+    .project-link { display: inline-flex; align-items: center; gap: 0.4rem; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
     .project-link:hover { color: #fff; }
     .project-link::after { content: '→'; transition: transform 0.2s; }
     .project-link:hover::after { transform: translateX(4px); }
 
-    .video-placeholder {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      height: 180px;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center; gap: 0.6rem;
+    /* ── VIDEO ── */
+    .project-videos {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
       margin-bottom: 1.25rem;
-      color: var(--muted);
-      font-family: var(--mono);
-      font-size: 0.72rem; font-weight: 600;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
     }
-    .video-placeholder .play-icon { font-size: 2.5rem; opacity: 0.2; color: var(--orange); }
+
+    .video-wrap {
+      position: relative;
+      background: #000;
+      border: 1px solid var(--border);
+    }
+
+    .video-wrap video {
+      width: 100%;
+      display: block;
+      max-height: 220px;
+      object-fit: cover;
+    }
+
+    .video-label {
+      font-family: var(--mono);
+      font-size: 0.65rem; font-weight: 600;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.4rem 0.6rem;
+      background: var(--bg);
+      border-top: 1px solid var(--border);
+    }
 
     /* ── EXPERIENCE ── */
     .experience-list { display: flex; flex-direction: column; }
-
-    .exp-item {
-      border-left: 2px solid var(--border);
-      padding: 0 0 2.5rem 2rem;
-      position: relative;
-    }
-
-    .exp-item::before {
-      content: '';
-      position: absolute;
-      left: -5px; top: 8px;
-      width: 8px; height: 8px;
-      background: var(--orange);
-      border: 2px solid var(--bg);
-      transform: rotate(45deg);
-    }
-
+    .exp-item { border-left: 2px solid var(--border); padding: 0 0 2.5rem 2rem; position: relative; }
+    .exp-item::before { content: ''; position: absolute; left: -5px; top: 8px; width: 8px; height: 8px; background: var(--orange); border: 2px solid var(--bg); transform: rotate(45deg); }
     .exp-item:last-child { padding-bottom: 0; }
-
     .exp-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.25rem; flex-wrap: wrap; gap: 0.5rem; }
-
-    .exp-company {
-      font-family: var(--mono);
-      font-size: 0.78rem; font-weight: 700;
-      color: var(--orange);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    .exp-date {
-      font-family: var(--mono);
-      font-size: 0.7rem;
-      color: var(--muted);
-      letter-spacing: 0.08em;
-    }
-
-    .exp-title {
-      font-family: var(--mono);
-      font-size: 1.1rem; font-weight: 700;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      color: var(--text);
-      margin-bottom: 0.85rem;
-    }
-
+    .exp-company { font-family: var(--mono); font-size: 0.78rem; font-weight: 700; color: var(--orange); letter-spacing: 0.12em; text-transform: uppercase; }
+    .exp-date { font-family: var(--mono); font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+    .exp-title { font-family: var(--mono); font-size: 1.1rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: var(--text); margin-bottom: 0.85rem; }
     .exp-bullets { list-style: none; display: flex; flex-direction: column; gap: 0.5rem; }
-
-    .exp-bullets li {
-      font-size: 0.9rem;
-      color: var(--muted);
-      padding-left: 1.2rem;
-      position: relative;
-    }
-
-    .exp-bullets li::before {
-      content: '▸';
-      position: absolute; left: 0;
-      color: var(--amber);
-      font-size: 0.65rem;
-      top: 0.25em;
-    }
-
+    .exp-bullets li { font-size: 0.9rem; color: var(--muted); padding-left: 1.2rem; position: relative; }
+    .exp-bullets li::before { content: '▸'; position: absolute; left: 0; color: var(--amber); font-size: 0.65rem; top: 0.25em; }
     .exp-bullets li strong { color: var(--text); font-weight: 500; }
 
     /* ── CONTACT ── */
     .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; padding-bottom: 8rem; align-items: start; }
-
-    .contact-text h2 {
-      font-family: var(--mono);
-      font-size: 2.2rem; font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.02em;
-      margin-bottom: 1rem;
-      line-height: 1.1;
-    }
-
+    .contact-text h2 { font-family: var(--mono); font-size: 2.2rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; margin-bottom: 1rem; line-height: 1.1; }
     .contact-text h2 span { color: var(--orange); display: block; }
-
     .contact-text p { color: var(--muted); margin-bottom: 1.5rem; font-size: 0.95rem; }
-
-    .contact-note {
-      font-size: 0.85rem;
-      color: var(--muted);
-      border-left: 3px solid var(--orange);
-      padding-left: 1rem;
-      font-style: italic;
-    }
-
+    .contact-note { font-size: 0.85rem; color: var(--muted); border-left: 3px solid var(--orange); padding-left: 1rem; font-style: italic; }
     .contact-links { display: flex; flex-direction: column; gap: 0; }
-
-    .contact-link {
-      display: flex; align-items: center; gap: 1rem;
-      font-family: var(--mono);
-      font-size: 0.8rem; font-weight: 600;
-      color: var(--muted);
-      text-decoration: none;
-      padding: 1rem 1.25rem;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      transition: all 0.15s;
-      letter-spacing: 0.06em;
-      margin-bottom: -1px;
-    }
-
+    .contact-link { display: flex; align-items: center; gap: 1rem; font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 1rem 1.25rem; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; letter-spacing: 0.06em; margin-bottom: -1px; }
     .contact-link:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); z-index: 1; position: relative; }
     .contact-link .link-icon { font-size: 1rem; color: var(--orange); }
 
-    /* ── FOOTER ── */
-    footer {
-      position: relative; z-index: 1;
-      text-align: center;
-      padding: 1.75rem;
-      border-top: 2px solid var(--border);
-      font-family: var(--mono);
-      font-size: 0.72rem; font-weight: 600;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
+    footer { position: relative; z-index: 1; text-align: center; padding: 1.75rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(18px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-links { display: none; }
       .about-grid, .projects-grid, .contact-wrapper, .skills-categories { grid-template-columns: 1fr; gap: 2rem; }
       .project-card.featured { grid-column: span 1; }
+      .project-videos { grid-template-columns: 1fr; }
       h1 { font-size: clamp(3rem, 13vw, 5rem); }
     }
   </style>
@@ -495,21 +292,78 @@
     </ul>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="hero-tag">Edmonton, Alberta — RCAF Veteran</div>
-    <h1>
-      Ian<br>
-      <span class="line2">Stout<span class="accent">.</span></span>
-    </h1>
-    <p class="hero-desc">
-      Autonomous systems engineer and technology director. I build perception stacks, edge AI systems, and autonomous control platforms that operate in the harshest real-world environments — mining, heavy construction, and tactical operations.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View Projects</a>
-      <a href="mailto:buildsignal916@gmail.com" class="btn btn-outline">Get in Touch</a>
+  <!-- HERO with mountains -->
+  <div id="hero">
+    <div class="glow-top"></div>
+
+    <!-- SVG mountain range background -->
+    <div class="mountain-bg">
+      <svg viewBox="0 0 1440 500" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3a3228" stop-opacity="0"/>
+            <stop offset="100%" stop-color="#1a1712" stop-opacity="1"/>
+          </linearGradient>
+          <linearGradient id="mtn1" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#4a4035"/>
+            <stop offset="100%" stop-color="#2a2420"/>
+          </linearGradient>
+          <linearGradient id="mtn2" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#3d352b"/>
+            <stop offset="100%" stop-color="#221e18"/>
+          </linearGradient>
+          <linearGradient id="mtn3" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#302a22"/>
+            <stop offset="100%" stop-color="#1a1712"/>
+          </linearGradient>
+          <!-- snow caps -->
+          <linearGradient id="snow" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stop-color="#c8b89a" stop-opacity="0.55"/>
+            <stop offset="100%" stop-color="#c8b89a" stop-opacity="0"/>
+          </linearGradient>
+          <!-- amber horizon glow -->
+          <radialGradient id="horizonGlow" cx="65%" cy="100%" r="55%">
+            <stop offset="0%" stop-color="#e8580a" stop-opacity="0.18"/>
+            <stop offset="100%" stop-color="#e8580a" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+
+        <!-- horizon amber glow -->
+        <rect x="0" y="0" width="1440" height="500" fill="url(#horizonGlow)"/>
+
+        <!-- far distant range -->
+        <polygon points="0,420 80,310 160,370 240,280 340,320 420,250 500,300 580,240 660,290 740,220 820,270 900,210 980,260 1060,200 1140,250 1220,220 1300,260 1380,230 1440,255 1440,500 0,500" fill="url(#mtn3)" opacity="0.6"/>
+
+        <!-- mid range — main peaks -->
+        <polygon points="0,500 0,380 60,390 130,340 200,360 280,290 360,310 420,260 500,280 560,230 640,255 700,200 760,220 820,180 900,195 960,155 1030,170 1100,140 1160,160 1220,130 1280,148 1340,125 1400,145 1440,135 1440,500" fill="url(#mtn2)"/>
+
+        <!-- snow highlights on mid peaks -->
+        <polygon points="820,195 848,170 876,185 860,165 840,150 820,158 800,170 790,180 805,185" fill="url(#snow)"/>
+        <polygon points="1100,148 1125,128 1150,142 1135,118 1112,105 1090,115 1075,130 1082,140" fill="url(#snow)"/>
+        <polygon points="1220,138 1242,118 1262,132 1248,108 1228,96 1208,108 1196,122 1205,132" fill="url(#snow)"/>
+        <polygon points="560,240 580,218 600,232 588,208 566,196 546,208 536,222 545,234" fill="url(#snow)"/>
+        <polygon points="420,268 440,248 458,260 446,238 426,226 406,238 397,252 406,262" fill="url(#snow)"/>
+
+        <!-- foreground ridge -->
+        <polygon points="0,500 0,440 100,430 200,445 320,420 420,435 520,415 620,430 720,410 820,425 920,405 1040,420 1140,408 1240,418 1340,405 1440,415 1440,500" fill="url(#mtn1)" opacity="0.9"/>
+
+        <!-- fade to page bg at bottom -->
+        <rect x="0" y="350" width="1440" height="150" fill="url(#skyGrad)"/>
+      </svg>
     </div>
-  </section>
+
+    <div class="hero-content">
+      <div class="hero-tag">Edmonton, Alberta — RCAF Veteran</div>
+      <h1>Ian<br><span class="line2">Stout<span class="accent">.</span></span></h1>
+      <p class="hero-desc">
+        Autonomous systems engineer and technology director. I build perception stacks, edge AI systems, and autonomous control platforms that operate in the harshest real-world environments — mining, heavy construction, and tactical operations.
+      </p>
+      <div class="hero-cta">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="mailto:buildsignal916@gmail.com" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+  </div>
 
   <!-- ABOUT -->
   <section id="about">
@@ -597,10 +451,22 @@
         <h3>Autonomous Braking System — Level 9</h3>
         <p>Led every stage of development for a patent-pending autonomous braking system deployed across multiple active mining and construction sites. Full ownership from electrical design and component selection through physical installation, software integration, and customer deployment. Integrated YOLO/OpenCV-based real-time perception with deterministic control logic — producing measurable reduction in near-miss incidents in active field environments.</p>
         <span class="project-stat">↓ Near-miss incidents across active customer sites</span>
-        <div class="video-placeholder">
-          <span class="play-icon">▶</span>
-          <span>Demo video — coming soon</span>
+
+        <div class="project-videos">
+          <div class="video-wrap">
+            <video controls preload="metadata">
+              <source src="demo_l9.mp4" type="video/mp4">
+            </video>
+            <div class="video-label">Field Demo — Site Deployment</div>
+          </div>
+          <div class="video-wrap">
+            <video controls preload="metadata">
+              <source src="demo_l9_2.mp4" type="video/mp4">
+            </video>
+            <div class="video-label">System in Operation</div>
+          </div>
         </div>
+
         <div class="project-tags">
           <span class="project-tag">YOLO / OpenCV</span>
           <span class="project-tag">Edge AI</span>
