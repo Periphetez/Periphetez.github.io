@@ -6,24 +6,24 @@
   <title>Ian Stout — Director, Field Robotics & Autonomous Systems</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg:       #1a1712;
-      --bg2:      #211e18;
-      --surface:  #2a2620;
-      --surface2: #322e27;
-      --border:   #3d3830;
-      --border2:  #4e4840;
-      --orange:   #e8580a;
-      --orange2:  #c44a08;
-      --rust:     #a63d1f;
-      --amber:    #d4820a;
-      --steel:    #9aa0a8;
-      --text:     #e8e2d8;
-      --muted:    #8a8070;
-      --mono: 'Barlow Condensed', sans-serif;
-      --sans: 'Barlow', sans-serif;
+      --bg:       #0B1015;
+      --bg2:      #131820;
+      --surface:  #131820;
+      --surface2: #1A2029;
+      --border:   #2A323D;
+      --border2:  #3A4450;
+      --orange:   #B23B3B;
+      --orange2:  #8B2E2E;
+      --rust:     #8B2E2E;
+      --amber:    #B23B3B;
+      --steel:    #8B95A1;
+      --text:     #F1EEE6;
+      --muted:    #8B95A1;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'Inter', system-ui, -apple-system, sans-serif;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -65,17 +65,17 @@
       position: absolute;
       inset: 0;
       background: linear-gradient(to bottom,
-        rgba(26,23,18,0.45) 0%,
-        rgba(26,23,18,0.35) 30%,
-        rgba(26,23,18,0.72) 65%,
-        rgba(26,23,18,1.0) 100%
+        rgba(11,16,21,0.45) 0%,
+        rgba(11,16,21,0.35) 30%,
+        rgba(11,16,21,0.72) 65%,
+        rgba(11,16,21,1.0) 100%
       );
     }
 
     .mountain-tint {
       position: absolute;
       inset: 0;
-      background: radial-gradient(ellipse at 65% 40%, rgba(212,130,10,0.12) 0%, transparent 60%);
+      background: radial-gradient(ellipse at 65% 40%, rgba(178,59,59,0.12) 0%, transparent 60%);
       z-index: 1;
     }
 
@@ -84,7 +84,7 @@
       position: fixed;
       width: 700px; height: 500px;
       border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(232,88,10,0.09) 0%, transparent 65%);
+      background: radial-gradient(ellipse, rgba(178,59,59,0.09) 0%, transparent 65%);
       bottom: -150px; left: -100px;
       pointer-events: none; z-index: 0;
     }
@@ -93,7 +93,7 @@
       position: absolute;
       width: 500px; height: 300px;
       border-radius: 50%;
-      background: radial-gradient(ellipse, rgba(212,130,10,0.12) 0%, transparent 70%);
+      background: radial-gradient(ellipse, rgba(178,59,59,0.12) 0%, transparent 70%);
       top: 60px; right: 5%;
       pointer-events: none; z-index: 1;
     }
@@ -103,7 +103,7 @@
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1rem 3rem;
-      background: rgba(26,23,18,0.93);
+      background: rgba(11,16,21,0.93);
       backdrop-filter: blur(10px);
       border-bottom: 2px solid var(--border);
     }
@@ -141,7 +141,7 @@
       text-transform: uppercase; margin-bottom: 1.5rem; text-shadow: 0 2px 24px rgba(0,0,0,0.55);
       opacity: 0; animation: fadeUp 0.6s ease forwards 0.35s;
     }
-    h1 .line2 { color: transparent; display: block; -webkit-text-stroke: 1.5px rgba(232,88,10,0.5); }
+    h1 .line2 { color: transparent; display: block; -webkit-text-stroke: 1.5px rgba(178,59,59,0.5); }
     h1 .accent { color: var(--orange); }
 
     .hero-desc {
@@ -162,12 +162,12 @@
     }
     .btn-primary { background: var(--orange); color: #fff; border: none; }
     .btn-primary:hover { background: var(--orange2); }
-    .btn-outline { background: rgba(26,23,18,0.55); color: var(--text); border: 1px solid var(--border2); backdrop-filter: blur(4px); }
+    .btn-outline { background: rgba(11,16,21,0.55); color: var(--text); border: 1px solid var(--border2); backdrop-filter: blur(4px); }
     .btn-outline:hover { border-color: var(--orange); color: var(--orange); }
 
     /* ── SECTION HEADERS ── */
     .section-header { display: flex; align-items: center; gap: 1.25rem; margin-bottom: 3rem; padding-top: 6rem; }
-    .section-num { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); letter-spacing: 0.2em; background: rgba(232,88,10,0.1); border: 1px solid rgba(232,88,10,0.25); padding: 0.25rem 0.6rem; }
+    .section-num { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--orange); letter-spacing: 0.2em; background: rgba(178,59,59,0.1); border: 1px solid rgba(178,59,59,0.25); padding: 0.25rem 0.6rem; }
     .section-title { font-family: var(--mono); font-size: 1.8rem; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
     .section-line { flex: 1; height: 1px; background: var(--border); }
 
@@ -187,7 +187,7 @@
     .skill-cat h4 { font-family: var(--mono); font-size: 0.72rem; font-weight: 700; color: var(--amber); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.75rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border); }
     .skill-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; }
     .skill-tag { font-family: var(--mono); font-size: 0.7rem; font-weight: 600; color: var(--steel); background: var(--surface); border: 1px solid var(--border); padding: 0.35rem 0.65rem; letter-spacing: 0.04em; transition: all 0.15s; }
-    .skill-tag:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); }
+    .skill-tag:hover { border-color: var(--orange); color: var(--orange); background: rgba(178,59,59,0.06); }
 
     /* ── PROJECTS ── */
     .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
@@ -202,7 +202,12 @@
     .project-card h3 { font-family: var(--mono); font-size: 1.05rem; font-weight: 800; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 0.75rem; color: var(--text); }
     .project-card p { color: var(--muted); font-size: 0.9rem; line-height: 1.65; margin-bottom: 1.25rem; }
 
-    .project-stat { display: inline-block; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); background: rgba(232,88,10,0.08); border: 1px solid rgba(232,88,10,0.3); padding: 0.3rem 0.75rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
+    .project-title-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.75rem; }
+    .project-title-row h3 { margin-bottom: 0; }
+    .project-mark { height: 40px; width: 40px; object-fit: cover; border-radius: 6px; flex-shrink: 0; }
+    .project-links { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+
+    .project-stat { display: inline-block; font-family: var(--mono); font-size: 0.75rem; font-weight: 700; color: var(--orange); background: rgba(178,59,59,0.08); border: 1px solid rgba(178,59,59,0.3); padding: 0.3rem 0.75rem; margin-bottom: 1rem; letter-spacing: 0.05em; }
 
     .project-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1rem; }
     .project-tag { font-family: var(--mono); font-size: 0.67rem; font-weight: 600; color: var(--muted); background: rgba(255,255,255,0.03); border: 1px solid var(--border); padding: 0.25rem 0.6rem; letter-spacing: 0.04em; }
@@ -270,7 +275,7 @@
     .contact-note { font-size: 0.85rem; color: var(--muted); border-left: 3px solid var(--orange); padding-left: 1rem; font-style: italic; }
     .contact-links { display: flex; flex-direction: column; gap: 0; }
     .contact-link { display: flex; align-items: center; gap: 1rem; font-family: var(--mono); font-size: 0.8rem; font-weight: 600; color: var(--muted); text-decoration: none; padding: 1rem 1.25rem; border: 1px solid var(--border); background: var(--surface); transition: all 0.15s; letter-spacing: 0.06em; margin-bottom: -1px; }
-    .contact-link:hover { border-color: var(--orange); color: var(--orange); background: rgba(232,88,10,0.06); z-index: 1; position: relative; }
+    .contact-link:hover { border-color: var(--orange); color: var(--orange); background: rgba(178,59,59,0.06); z-index: 1; position: relative; }
     .contact-link .link-icon { font-size: 1rem; color: var(--orange); }
 
     footer { position: relative; z-index: 1; text-align: center; padding: 1.75rem; border-top: 2px solid var(--border); font-family: var(--mono); font-size: 0.72rem; font-weight: 600; color: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
@@ -312,7 +317,7 @@
       <div class="hero-tag">Edmonton, Alberta — RCAF Veteran</div>
       <h1>Ian<br><span class="line2">Stout<span class="accent">.</span></span></h1>
       <p class="hero-desc">
-        Autonomous systems engineer and technology director. I build perception stacks, Edge AI systems, and autonomous control platforms that operate in the harshest real-world environments — mining, heavy construction, and tactical operations.
+        Autonomous systems pioneer. I build perception stacks, Edge AI systems, and autonomous control platforms across ground, air, and industrial robotics — from self-driving passenger vehicles to autonomous drones to heavy equipment operating in the harshest real-world environments. If it needs to sense, decide, and act on its own, I've probably built some version of it.
       </p>
       <div class="hero-cta">
         <a href="#projects" class="btn btn-primary">View Projects</a>
@@ -330,8 +335,10 @@
     </div>
     <div class="about-grid">
       <div class="about-text">
-        <p>My career started in the oilfield — <strong>troubleshooting mechanical failures and electronic control systems</strong> on power generators, power swivels, and fluid pumping equipment in active field environments. That built a ground-level understanding of how industrial equipment actually fails.</p>
-        <p>From there, progressive leadership in quality, compliance, and operations across heavy industry taught me the rigor that separates <strong>deployable technology from technology that only works in a lab</strong>.</p>
+        <p>My time in the Royal Canadian Air Force taught me something no lab or industrial site ever could: <strong>what it actually means for a system to have to work</strong> — not might work, has to — because someone's life is on the other end of it. That standard has shaped every system I've built since.</p>
+        <p>From there, my career moved into the oilfield — <strong>troubleshooting mechanical failures and electronic control systems</strong> on power generators, power swivels, and fluid pumping equipment in active field environments. That built a ground-level understanding of how industrial equipment actually fails.</p>
+        <p>Progressive leadership in quality, compliance, and operations across heavy industry followed, teaching me the rigor that separates <strong>deployable technology from technology that only works in a lab</strong>.</p>
+        <p>At Pegasus Imagery, I led the full development lifecycle of autonomous UAV platforms for wildfire management and national security missions — embedded sensor processing, fault-tolerant architecture, and airworthiness validation through to real <strong>BVLOS operational deployment</strong>.</p>
         <p>Today I own the full autonomous systems lifecycle at Correct-AI: electrical design, hardware selection, equipment integration, field deployment, and the product support teams that keep systems running where technology gets pushed hard every single day.</p>
         <p><strong>RCAF veteran.</strong> Electronic Engineering Technology diploma. Six Sigma Green Belt. Bachelor of Management in progress at Athabasca University.</p>
       </div>
@@ -486,21 +493,25 @@
       </div>
 
       <div class="project-card">
-        <div class="project-label">// Edgeward — Source on Request</div>
-        <h3>Edgeward — Tactical Autonomy Software</h3>
-        <p>The operator-canvas-to-mission layer for small-unit ISR. Edgeward turns the ATAK ecosystem into a drone orchestration platform — operators draw zones and points of interest on the map they already use, the software plans missions, runs AI perception against the drone feed, and reports back through the same map. Operator-driven. Hardware-agnostic. Built on open standards.</p>
-        <img src="edgeward_logo.png" alt="Edgeward" style="width:100%;border-radius:6px;margin-bottom:1rem;background:#fff;padding:1rem;">
-        <div class="project-tags">
-          <span class="project-tag">ATAK</span>
-          <span class="project-tag">MAVLink</span>
-          <span class="project-tag">Jetson</span>
-          <span class="project-tag">YOLOv8</span>
-          <span class="project-tag">ByteTrack</span>
-          <span class="project-tag">CoT</span>
-          <span class="project-tag">PX4</span>
-          <span class="project-tag">Python</span>
+        <div class="project-label">// Edgeward — edgeward.ca</div>
+        <div class="project-title-row">
+          <img src="edgeward-logo.png" alt="Edgeward" class="project-mark">
+          <h3>— Tactical Autonomy Software</h3>
         </div>
-        <a href="mailto:buildsignal916@gmail.com" class="project-link">Request Access</a>
+        <p>Aircraft-to-aircraft collision avoidance from a single monocular camera — no LiDAR required — using bearings-only tracking techniques adapted from published naval and aviation collision-avoidance research. Validated end-to-end on real flight hardware: a Pixhawk flight controller and NVIDIA Jetson running the full detection-to-alert chain. Integrates with ATAK over Cursor-on-Target — an operator draws a zone, Edgeward generates and flies the mission autonomously, then reports status, alerts, and detections back through the same shared operating picture. Autopilot-agnostic across ArduPilot and PX4, with dual-mode perception for collision avoidance and ground search/detection.</p>
+        <span class="project-stat">Monocular avoidance — no LiDAR required</span>
+        <div class="project-tags">
+          <span class="project-tag">ATAK / CoT</span>
+          <span class="project-tag">MAVLink</span>
+          <span class="project-tag">ArduPilot / PX4</span>
+          <span class="project-tag">Pixhawk</span>
+          <span class="project-tag">Jetson</span>
+          <span class="project-tag">YOLOv8 / ByteTrack</span>
+        </div>
+        <div class="project-links">
+          <a href="https://edgeward.ca" class="project-link" target="_blank">edgeward.ca</a>
+          <a href="mailto:buildsignal916@gmail.com" class="project-link">Request Access</a>
+        </div>
       </div>
 
       <div class="project-card">
